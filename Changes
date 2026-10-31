@@ -1,0 +1,69 @@
+Revision history for Time-Keeper
+
+0.12    2026-10-22
+        - Duration->total in milliseconds, microseconds and nanoseconds is exact on long-double perls (1.5 s is 1500 ms).
+
+0.11    2026-10-21
+        - Tests run on perls before 5.14
+        - Tests pass on 32-bit perls (pointer and IV sizes).
+
+0.10    2026-10-20
+        - Builds on perl 5.10.0 (mPUSHs, mXPUSHs).
+
+0.09    2026-10-20
+        - parse_cldr reads the numerals some calendars are written in: Hebrew numerals, the lunar days and Chinese numerals, and the first year of a Japanese era.
+        - parse_cldr reads back every date it writes in every calendar and locale
+        - The calendar names of a locale whose parent has none of its own (ca-ES-valencia) are inherited by truncation.
+
+0.08    2026-10-19
+        - Time::Keeper::Locale: number_symbols, the decimal, group and minus signs, and ascii_digits.
+        - Time::Keeper::Locale: day_periods takes a context, giving the stand-alone names.
+        - parse_cldr reads every locale's GMT format back: a space before the sign (hr), an en dash for minus (eu), hours and minutes run together (am).
+        - parse_cldr matches white space inside a name with any white space: "p. m." typed with a plain space reads.
+
+0.07    2026-10-19
+        - Update the C ABI to version 3: plus, truncate, end_of, the weekday adjusters, with_time, parse_cldr, durations, locale codes and weekends, plain dates read and made, and a zone's next change, each giving the method's reason when it fails.
+
+0.06    2026-10-19
+        - The locale archive carries CLDR's weekday relative words ("last Tuesday", "next Tuesday", "in {0} Tuesdays")
+        - Time::Keeper::Locale: day_periods, the names of the parts of a day, and day_period_rules, when each is.
+        - Fix: a parse_cldr or strptime error after a pattern literal that shared the first byte of the text's character warned of malformed UTF-8 and misplaced its offset.
+        - Tests: t/37-relative.t pins the clock (it failed between midnight and 03:00); t/29-until.t compares totals within a tolerance (it failed on long-double perls).
+
+0.05    2026-10-18
+        - Calendars: a value is read in any of thirteen calendars (calendar => on every constructor, in_calendar, era, era_year, month_code, is_leap_month, months_in_year, related_year and Time::Keeper::Calendar.
+        - Arithmetic in a calendar: plus, minus, the difference, until, truncate, round, end_of, the weekday adjusters and range count the calendar's months; years by name keep the month by its code.
+        - The Chinese, Dangi and astronomical Hijri calendars (islamic, islamic-rgsa), from tables of what ICU computes for the years 1000 to 3000; cyclic_year.
+        - Builds on Strawberry Perl: a local in from_object was named tzname, which MinGW's time.h defines as a macro.
+
+0.04    2026-10-18
+        - Time::Keeper::Date, Time::Keeper::YearMonth and Time::Keeper::MonthDay: a date with no time, a year and month, a month and day; to_date, to_year_month and to_month_day on a value.
+        - Time::Keeper::Time: a time of day on no date, wrapping at midnight; to_time on a value; Date->at takes one.
+
+0.03    2026-10-18
+        - The locale archive carries CLDR's relative-time words, duration units, list patterns, interval formats, weekend days and plural rules (archive section version 3).
+        - Time::Keeper::Locale: weekend_start, weekend_end, plural_category, relative_names, unit_patterns, duration_patterns, list_patterns, interval_formats, interval_fallback.
+        - format_relative: "3 hours ago", "yesterday", in every locale; Duration->format: "1 hour, 30 minutes" and h:mm:ss.
+        - format_interval: "Oct 15 – 17, 2026", the shared fields written once, in every locale.
+        - is_weekend and is_weekday; week and week_year take locale => 1; truncate, round and end_of take week_start.
+        - $Time::Keeper::CLOCK pins the clock now and today read, for tests; a value, an epoch or a code ref.
+        - range and iterate: the values from one to another by a unit or a duration, as a list or one at a time.
+        - Fix: CBOR::XS and JSON::XS could not encode a value or a duration; a value's referent is no longer read-only.
+        - Fix: from_object read tzoffset wrongly before perl 5.38.
+
+0.02    2026-10-18
+        - end_of: the last nanosecond of a year, quarter, month, week, day, hour, minute, second, millisecond or microsecond.
+        - truncate, round and end_of to a millisecond, microsecond or nanosecond; round to a day on a day with no midnight rounds to the real next midnight.
+        - round takes increment and mode (floor, ceil, half_floor, half_ceil, half_even); Duration->round.
+        - until and since: the difference in chosen units (largest, smallest, increment, mode); modes trunc and expand.
+        - Duration->total, Duration->balance, and relative_to for Duration->round.
+        - epoch_millis, epoch_micros, epoch_nanos, and from_epoch_millis, from_epoch_micros, from_epoch_nanos.
+        - FREEZE and THAW (Sereal, CBOR::XS) on values and durations; Storable hooks on durations.
+        - from_object takes an object with epoch (Time::Piece, Time::Moment); iso8601 takes form => basic, week or ordinal.
+        - try_new and try_with; with takes day_of_year and week; to_list; hour_12; Duration->divide and ->abs.
+        - next, previous, nth_in_month and last_in_month: the weekday adjusters.
+        - with takes day => 'last' and day_of_week.
+        - Add next_transition, previous_transition, is_ambiguous, other_reading, standard_offset and dst_offset.
+
+0.01    2026-10-16
+        - first version
